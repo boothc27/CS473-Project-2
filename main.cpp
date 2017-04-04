@@ -23,6 +23,9 @@ double axisLength = 50.0;
 
 Object3D newObj = Object3D();
 ImportObject shark = ImportObject();
+ImportObject car = ImportObject();
+ImportObject wheel = ImportObject();
+ImportObject turret = ImportObject();
 Camera cam = Camera();
 double curAz = 45;
 double curDist = 5.0;
@@ -56,8 +59,12 @@ void display() {
 	cam.setView();
     drawAxis();
 
+    newObj.rotateByX(1.0);
     newObj.draw();
-    shark.drawObjDL();
+    //shark.drawObjDL();
+    car.drawObjDL();
+    wheel.drawObjDL();
+    turret.drawObjDL();
 
 	glutSwapBuffers();
 }
@@ -170,7 +177,7 @@ void mouseMove(int x, int y) {
         cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
     }
     else {
-        cam.cameraPan(newObj.getPos(), curAz, curDist, curEle);
+        cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
     }
     //printf("curAz: %f -- curDist: %f -- curEle: %f\n", curAz,curDist,curEle);
     glutPostRedisplay();
@@ -212,9 +219,12 @@ int main(int argc, char** argv) {
     //       change the distance of the camera from the object)
 
     shark.importAll("Shark");
+    car.importAll("car");
+    wheel.importAll("wheel");
+    turret.importAll("turret");
 	newObj.moveTo(Vec3d(1.0, 2.0, 1.0));
 	cam.setView();
-	cam.cameraPan(newObj.getPos(), curAz, curDist, curEle);
+	cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
     glutIdleFunc(idle);
     glEnable(GL_DEPTH_TEST);
 

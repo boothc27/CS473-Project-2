@@ -248,4 +248,3 @@ int Face::getFaceMat(int num) {
 int Face::numVertecies() {
     return this->faceVert.size();
 }
-

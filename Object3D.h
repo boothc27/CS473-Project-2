@@ -2,6 +2,7 @@
 #define OBJECT3D_H
 
 #include "Vec3d.h"
+#include "ImportObject.h"
 
 class Object3D
 {

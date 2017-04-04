@@ -29,7 +29,7 @@ class Face
         std::vector<int> faceMat;
 };
 
-class ImportObject : Object3D
+class ImportObject
 {
     public:
         ImportObject();
@@ -37,7 +37,6 @@ class ImportObject : Object3D
         void initObjDL();
         void drawObj();
         void drawObjDL();
-
     protected:
 
     private:
