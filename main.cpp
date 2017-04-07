@@ -1,9 +1,13 @@
+//  --  //  --  //  --  //  main.cpp   //  --  //  --  //  --  //
 /** CS473: Computer Graphics
-  * ICE Lesson 18: Camera
-  * Author:
+  * Project 2
+  * Modified from ICE Lesson 18: Camera
+  * Author: CDT Booth
   */
 
+#include <vector>
 #include <iostream>
+#include <cmath>
 #include <string>
 #include <sstream>
 #include <stdio.h>
@@ -12,6 +16,7 @@
 #include <GL/glut.h>
 #include "GL/freeglut.h"
 #include "ImportObject.h"
+#include "Helpers.h"
 
 int frameRate = 60;     // Limit on FPS rate
 int frameRateMS = 1000 / frameRate;
@@ -24,7 +29,8 @@ double axisLength = 50.0;
 Object3D newObj = Object3D();
 ImportObject shark = ImportObject();
 ImportObject car = ImportObject();
-ImportObject wheel = ImportObject();
+ImportObject wheel1 = ImportObject();
+ImportObject wheel2 = ImportObject();
 ImportObject turret = ImportObject();
 Camera cam = Camera();
 double curAz = 45;
@@ -53,18 +59,76 @@ void drawAxis() {
     glEnd();
 }
 
+void drawHUD() {
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(0.0,2.0,0.0,1.0);
+    glViewport(0, windowSize[1] - 200, 200, 200);
+
+    glColor3f(0.5, 0.5, 0.5);
+    using namespace std;
+    ostringstream txt;
+    txt << "R: Reset Camera";
+    drawStringBitmap(0.1, 0.65, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
+    txt << "Arrow Keys: Move Turret";
+    drawStringBitmap(0.1, 0.55, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
+    txt << "Hold Right Mouse: Pan Camera";
+    drawStringBitmap(0.1, 0.45, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
+    txt << "Hold Middle Mouse: Zoom Camera";
+    drawStringBitmap(0.1, 0.35, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
+    if (freeCam) {
+        txt << "A/D: Move Camera in X";
+        drawStringBitmap(0.1, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+        txt << "Q/Z: Move Camera in Y";
+        drawStringBitmap(0.1, 0.15, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+        txt << "W/S: Move Camera in Z";
+        drawStringBitmap(0.1, 0.05, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+    }
+    else {
+        txt << "WASD: Pan Camera";
+        drawStringBitmap(0.1, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+    }
+
+
+    glViewport(windowSize[0]-200, windowSize[1] - 100, 200, 100);
+    if (freeCam) txt << "Camera Mode: Free";
+    else txt << "Camera Mode: Locked";
+    drawStringBitmap(0, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
+    txt << "F to Toggle";
+    drawStringBitmap(0, 0.0, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
+}
+
 void display() {
+    glViewport(0, 0, windowSize[0], windowSize[1]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
 
 	cam.setView();
     drawAxis();
 
-    newObj.rotateByX(1.0);
-    newObj.draw();
+    //newObj.draw();
     //shark.drawObjDL();
+
     car.drawObjDL();
-    wheel.drawObjDL();
+    wheel1.rotateByZ(-1.0);
+    wheel1.drawObjDL();
+    wheel2.rotateByZ(-1.0);
+    wheel2.drawObjDL();
     turret.drawObjDL();
+
+    drawHUD();
 
 	glutSwapBuffers();
 }
@@ -85,11 +149,9 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
                 deltaPos.x = 1.0;
                 cam.cameraTrans(deltaPos);
             }
-            else {//TODO Add keyboard camera pan
-                curAz = 45.0;
-                curEle = 5.0;
-                curDist = 5.0;
-                cam.cameraPan(newObj.getPos(), curAz, curDist, curEle);
+            else {
+                curAz -= 0.1;
+                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
             }
     }
     else if (key == 'a') {
@@ -98,6 +160,10 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
                 deltaPos.x = -1.0;
                 cam.cameraTrans(deltaPos);
             }
+            else {
+                curAz += 0.1;
+                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
+            }
     }
     else if (key == 'w') {
             if (freeCam) {
@@ -105,12 +171,20 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
                 deltaPos.z = -1.0;
                 cam.cameraTrans(deltaPos);
             }
+            else {
+                curEle += 0.1;
+                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
+            }
     }
     else if (key == 's') {
             if (freeCam) {
                     Vec3d deltaPos;
                 deltaPos.z = 1.0;
                 cam.cameraTrans(deltaPos);
+            }
+            else {
+                curEle -= 0.1;
+                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
             }
     }
     else if (key == 'q') {
@@ -131,7 +205,7 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
         curAz = 45.0;
         curEle = 5.0;
         curDist = 5.0;
-        cam.cameraPan(newObj.getPos(), curAz, curDist, curEle);
+        cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
     }
     else if (key == 'f') {
         if (freeCam) freeCam = false;
@@ -141,18 +215,10 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
 }
 
 void special(int key, int mouseX, int mouseY) {
-    if (key == GLUT_KEY_PAGE_UP) newObj.rotateByZ(5.0);
-    else if (key == GLUT_KEY_PAGE_DOWN) newObj.rotateByZ(-5.0);
-    else if (key == GLUT_KEY_UP) newObj.rotateByX(5.0);
-    else if (key == GLUT_KEY_DOWN) newObj.rotateByX(-5.0);
-    else if (key == GLUT_KEY_LEFT) newObj.rotateByY(5.0);
-    else if (key == GLUT_KEY_RIGHT) newObj.rotateByY(-5.0);
+    if (key == GLUT_KEY_LEFT) turret.rotateByY(5.0);
+    else if (key == GLUT_KEY_RIGHT) turret.rotateByY(-5.0);
 
     glutPostRedisplay();
-}
-
-double toRadians(double deg) {
-    return (deg/180.0) * 3.14159;
 }
 
 void mouseDelta(int x, int y) {
@@ -220,7 +286,10 @@ int main(int argc, char** argv) {
 
     shark.importAll("Shark");
     car.importAll("car");
-    wheel.importAll("wheel");
+    wheel1.importAll("front");
+    wheel1.moveTo(Vec3d(2.35,0.0,0.0));
+    wheel2.importAll("rear");
+    wheel2.moveTo(Vec3d(-2.75,0.15,0.0));
     turret.importAll("turret");
 	newObj.moveTo(Vec3d(1.0, 2.0, 1.0));
 	cam.setView();

@@ -39,6 +39,8 @@
 		</Compiler>
 		<Unit filename="Camera.cpp" />
 		<Unit filename="Camera.h" />
+		<Unit filename="Helpers.cpp" />
+		<Unit filename="Helpers.h" />
 		<Unit filename="ImportObject.cpp" />
 		<Unit filename="ImportObject.h" />
 		<Unit filename="Object3D.cpp" />

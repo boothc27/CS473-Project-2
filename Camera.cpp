@@ -1,3 +1,4 @@
+//  --  //  --  //  --  //  Camera.cpp   //  --  //  --  //  --  //
 #include <cmath>
 #include "stdio.h"
 #include "GL/freeglut.h"

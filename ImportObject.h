@@ -1,3 +1,4 @@
+//  --  //  --  //  --  //  ImportObject.h   //  --  //  --  //  --  //
 /* CS473: Computer Graphics
  * OpenGL .OBJ/.MTL file importer
  * Author: CPT Boyles
@@ -37,6 +38,12 @@ class ImportObject
         void initObjDL();
         void drawObj();
         void drawObjDL();
+
+        void moveTo(Vec3d newPos);
+        void rotateByX(double dTheta);
+        void rotateByY(double dTheta);
+        void rotateByZ(double dTheta);
+
     protected:
 
     private:
@@ -55,6 +62,8 @@ class ImportObject
         std::vector<Vec3d> materials;
 
         Vec3d getV3D(std::string line);
+        Vec3d pos;
+        Vec3d orientation;
 
 
 };

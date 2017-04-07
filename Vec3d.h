@@ -1,3 +1,4 @@
+//  --  //  --  //  --  //  Vec3d.h   //  --  //  --  //  --  //
 #ifndef VEC3D_H
 #define VEC3D_H
 

@@ -1,3 +1,4 @@
+//  --  //  --  //  --  //  ImportObject.cpp   //  --  //  --  //  --  //
 /* CS473: Computer Graphics
  * OpenGL .OBJ/.MTL file importer
  * Author: CPT Boyles
@@ -206,10 +207,21 @@ void ImportObject::drawObjDL() {
     if (!this->dlProcessed) {
         this->initObjDL();
     }
-    glCallList(this->dlNumber);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+        // Apply OpenGL transformations here
+        glTranslated(this->pos.x, this->pos.y, this->pos.z);
+        glRotated(this->orientation.x, 1, 0, 0);
+        glRotated(this->orientation.y, 0, 1, 0);
+        glRotated(this->orientation.z, 0, 0, 1);
+        glCallList(this->dlNumber);
+    glPopMatrix();
 }
 
-
+void ImportObject::moveTo(Vec3d newPos) {this->pos = newPos;}
+void ImportObject::rotateByX(double dTheta) {this->orientation.x += dTheta;}
+void ImportObject::rotateByY(double dTheta) {this->orientation.y += dTheta;}
+void ImportObject::rotateByZ(double dTheta) {this->orientation.z += dTheta;}
 
 Vec3d ImportObject::getV3D(std::string line) {
     int indexX = line.find(" ", 0) + 1;

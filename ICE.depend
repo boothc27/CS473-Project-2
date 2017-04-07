@@ -108,7 +108,7 @@
 
 1491242448 c:\users\x74575\documents\github\cs473-project-2\vec3d.h
 
-1491327543 source:c:\users\x74575\documents\github\cs473-project-2\importobject.cpp
+1491421078 source:c:\users\x74575\documents\github\cs473-project-2\importobject.cpp
 	"ImportObject.h"
 	<iostream>
 	<sstream>
@@ -117,7 +117,7 @@
 	<stdlib.h>
 	"GL/freeglut.h"
 
-1491327555 c:\users\x74575\documents\github\cs473-project-2\importobject.h
+1491419803 c:\users\x74575\documents\github\cs473-project-2\importobject.h
 	<string>
 	<vector>
 	<map>
@@ -129,8 +129,10 @@
 	"Vec3d.h"
 	"ImportObject.h"
 
-1491327560 source:c:\users\x74575\documents\github\cs473-project-2\main.cpp
+1491519937 source:c:\users\x74575\documents\github\cs473-project-2\main.cpp
+	<vector>
 	<iostream>
+	<cmath>
 	<string>
 	<sstream>
 	<stdio.h>
@@ -139,6 +141,7 @@
 	<GL/glut.h>
 	"GL/freeglut.h"
 	"ImportObject.h"
+	"Helpers.h"
 
 1491242448 source:c:\users\x74575\documents\github\cs473-project-2\object3d.cpp
 	"Object3D.h"
@@ -146,4 +149,12 @@
 
 1491242448 source:c:\users\x74575\documents\github\cs473-project-2\vec3d.cpp
 	"Vec3d.h"
+
+1491516823 source:c:\users\x74575\documents\github\cs473-project-2\helpers.cpp
+	"Helpers.h"
+	<cmath>
+
+1491516807 c:\users\x74575\documents\github\cs473-project-2\helpers.h
+	<string>
+	<GL/freeglut.h>
 
