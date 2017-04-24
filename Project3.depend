@@ -158,3 +158,56 @@
 	<string>
 	<GL/freeglut.h>
 
+1493042243 source:c:\users\x74575\desktop\cs473-project-3\camera.cpp
+	<cmath>
+	"stdio.h"
+	"GL/freeglut.h"
+	"Camera.h"
+
+1493042243 c:\users\x74575\desktop\cs473-project-3\camera.h
+	"Vec3d.h"
+
+1493042243 c:\users\x74575\desktop\cs473-project-3\vec3d.h
+
+1493042243 source:c:\users\x74575\desktop\cs473-project-3\importobject.cpp
+	"ImportObject.h"
+	<iostream>
+	<sstream>
+	<fstream>
+	<vector>
+	<stdlib.h>
+	"GL/freeglut.h"
+
+1493042243 c:\users\x74575\desktop\cs473-project-3\importobject.h
+	<string>
+	<vector>
+	<map>
+	"Vec3d.h"
+	"GL/freeglut.h"
+	"Object3D.h"
+
+1493042243 c:\users\x74575\desktop\cs473-project-3\object3d.h
+	"Vec3d.h"
+	"ImportObject.h"
+
+1493042243 source:c:\users\x74575\desktop\cs473-project-3\main.cpp
+	<vector>
+	<iostream>
+	<cmath>
+	<string>
+	<sstream>
+	<stdio.h>
+	"Object3D.h"
+	"Camera.h"
+	<GL/glut.h>
+	"GL/freeglut.h"
+	"ImportObject.h"
+	"Helpers.h"
+
+1493042243 source:c:\users\x74575\desktop\cs473-project-3\object3d.cpp
+	"Object3D.h"
+	"GL/freeglut.h"
+
+1493042243 source:c:\users\x74575\desktop\cs473-project-3\vec3d.cpp
+	"Vec3d.h"
+

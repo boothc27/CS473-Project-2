@@ -1,3 +1,4 @@
+//  --  //  --  //  --  //  Vec3d.cpp   //  --  //  --  //  --  //
 #include "Vec3d.h"
 
 Vec3d::Vec3d() {

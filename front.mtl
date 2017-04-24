@@ -1,0 +1,13 @@
+# Blender MTL File: 'front.blend'
+# Material Count: 1
+
+newmtl Material
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.639282 0.327705 0.008310
+Ks 0.399551 0.205137 0.012204
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd .
