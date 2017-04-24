@@ -43,10 +43,16 @@
 		<Unit filename="Helpers.h" />
 		<Unit filename="ImportObject.cpp" />
 		<Unit filename="ImportObject.h" />
+		<Unit filename="Light.cpp" />
+		<Unit filename="Light.h" />
 		<Unit filename="Object3D.cpp" />
 		<Unit filename="Object3D.h" />
 		<Unit filename="Vec3d.cpp" />
 		<Unit filename="Vec3d.h" />
+		<Unit filename="Vec3f.cpp" />
+		<Unit filename="Vec3f.h" />
+		<Unit filename="Vec4f.cpp" />
+		<Unit filename="Vec4f.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

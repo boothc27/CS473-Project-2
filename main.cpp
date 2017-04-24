@@ -1,7 +1,7 @@
 //  --  //  --  //  --  //  main.cpp   //  --  //  --  //  --  //
 /** CS473: Computer Graphics
   * Project 2
-  * Modified from ICE Lesson 18: Camera
+  * Modified from ICE Lesson 18: Camera and ICE Lesson 25: Lighting
   * Author: CDT Booth
   */
 
@@ -16,6 +16,7 @@
 #include <GL/glut.h>
 #include "GL/freeglut.h"
 #include "ImportObject.h"
+#include "Light.h"
 #include "Helpers.h"
 
 int frameRate = 60;     // Limit on FPS rate
@@ -23,15 +24,23 @@ int frameRateMS = 1000 / frameRate;
 
 int windowSize[] = {800, 800};
 int lastFrame = 0;
+bool lightingOn = false;
 
 double axisLength = 50.0;
 
-Object3D newObj = Object3D();
-ImportObject shark = ImportObject();
+    GLfloat red[] = {1.0, 0.0, 0.0, 1.0};
+    GLfloat green[] = {0.0, 1.0, 0.0, 1.0};
+    GLfloat blue[] = {0.0, 0.0, 1.0, 1.0};
+    GLfloat white[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat black[] = {0.0, 0.0, 0.0, 1.0};
+    GLfloat gray[] = {0.5, 0.5, 0.5, 1.0};
+
+
 ImportObject car = ImportObject();
 ImportObject wheel1 = ImportObject();
 ImportObject wheel2 = ImportObject();
 ImportObject turret = ImportObject();
+Light light1 = Light(0);
 Camera cam = Camera();
 double curAz = 45;
 double curDist = 5.0;
@@ -43,7 +52,6 @@ bool middleMouse = false;
 bool freeCam = false;
 
 void drawAxis() {
-
     glBegin(GL_LINES);
         glColor3f(1.0, 0.0, 0.0);   // Red for X-axis
         glVertex3f(-axisLength, 0, 0);
@@ -116,17 +124,22 @@ void display() {
     glLoadIdentity();
 
 	cam.setView();
+	light1.drawLight();
     drawAxis();
 
-    //newObj.draw();
-    //shark.drawObjDL();
-
+    glPushMatrix();
+    glMaterialfv(GL_FRONT, GL_AMBIENT, white);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, white);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, white);
+    glMaterialf(GL_FRONT, GL_SHININESS, 1.0);
     car.drawObjDL();
     wheel1.rotateByZ(-1.0);
     wheel1.drawObjDL();
     wheel2.rotateByZ(-1.0);
     wheel2.drawObjDL();
     turret.drawObjDL();
+
+    glPopMatrix();
 
     drawHUD();
 
@@ -276,26 +289,23 @@ int main(int argc, char** argv) {
 	glutSpecialFunc(special);
 	glutMouseFunc(mouse);
 	glutMotionFunc(mouseMove);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_LIGHTING);
 
-	// ICE: Add the necessary callbacks so that the camera:
-	//     * Pans around newObj's position when you hold down the
-	//       right mouse button (i.e. moving the mouse left and right
-    //       will change the azimuth, moving the mouse up and down
-    //       will change the elevation, scrolling in or out will
-    //       change the distance of the camera from the object)
+	light1.enableLight();
+	light1.makeLocal();
+    light1.setPos(Vec3f(2.0, 5.0, 0.0));
+    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-    shark.importAll("Shark");
     car.importAll("car");
     wheel1.importAll("front");
     wheel1.moveTo(Vec3d(2.35,0.0,0.0));
     wheel2.importAll("rear");
     wheel2.moveTo(Vec3d(-2.75,0.15,0.0));
     turret.importAll("turret");
-	newObj.moveTo(Vec3d(1.0, 2.0, 1.0));
 	cam.setView();
 	cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
     glutIdleFunc(idle);
-    glEnable(GL_DEPTH_TEST);
 
 	glutMainLoop();
 }
