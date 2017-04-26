@@ -11,6 +11,7 @@
 #include <string>
 #include <sstream>
 #include <stdio.h>
+#include <math.h>
 #include "Object3D.h"
 #include "Camera.h"
 #include <GL/glut.h>
@@ -35,11 +36,8 @@ double axisLength = 50.0;
     GLfloat black[] = {0.0, 0.0, 0.0, 1.0};
     GLfloat gray[] = {0.5, 0.5, 0.5, 1.0};
 
-
-ImportObject car = ImportObject();
-ImportObject wheel1 = ImportObject();
-ImportObject wheel2 = ImportObject();
-ImportObject turret = ImportObject();
+ImportObject objs[10];
+int num_objs = 5;
 Light light1 = Light(0);
 Camera cam = Camera();
 double curAz = 45;
@@ -47,9 +45,10 @@ double curDist = 5.0;
 double curEle = 5.0;
 int prevX, prevY, prevZ = 0;
 int dX, dY, dZ = 0;
+Vec3d carpos;
 bool rightMouse = false;
 bool middleMouse = false;
-bool freeCam = false;
+bool freeCam = true;
 
 void drawAxis() {
     glBegin(GL_LINES);
@@ -122,7 +121,7 @@ void display() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
+    cam.cameraLookAt(carpos);
 	cam.setView();
 	light1.drawLight();
     drawAxis();
@@ -132,12 +131,22 @@ void display() {
     glMaterialfv(GL_FRONT, GL_DIFFUSE, white);
     glMaterialfv(GL_FRONT, GL_SPECULAR, white);
     glMaterialf(GL_FRONT, GL_SHININESS, 1.0);
-    car.drawObjDL();
-    wheel1.rotateByZ(-1.0);
-    wheel1.drawObjDL();
-    wheel2.rotateByZ(-1.0);
-    wheel2.drawObjDL();
-    turret.drawObjDL();
+    for(int i=0;i<num_objs;i++) {
+        if (i>3) {
+            for (int j=0;j<num_objs;j++) {
+                if (i!=j) {
+                    1;//if (dist(objs[i].getPos(),objs[j].getPos()) < 0.1) objs[j] = ImportObject();
+                }
+            }
+        }
+        else {
+            if (i==1) objs[1].moveTo(Vec3d(carpos.x+2.35,carpos.y,carpos.z));
+            else if (i==2) objs[2].moveTo(Vec3d(carpos.x-2.75,carpos.y+0.15,carpos.z));
+            else objs[i].moveTo(carpos);
+        }
+        //printf("drawing objs[%d]\n",i);
+        objs[i].drawObjDL();
+    }
 
     glPopMatrix();
 
@@ -158,9 +167,7 @@ void idle() {
 void normKeys(unsigned char key, int mouseX, int mouseY) {
     if (key == 'd') {
             if (freeCam){
-                Vec3d deltaPos;
-                deltaPos.x = 1.0;
-                cam.cameraTrans(deltaPos);
+                carpos.x+=1;
             }
             else {
                 curAz -= 0.1;
@@ -169,9 +176,7 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == 'a') {
             if (freeCam) {
-                Vec3d deltaPos;
-                deltaPos.x = -1.0;
-                cam.cameraTrans(deltaPos);
+                carpos.x-=1;
             }
             else {
                 curAz += 0.1;
@@ -180,9 +185,7 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == 'w') {
             if (freeCam) {
-                    Vec3d deltaPos;
-                deltaPos.z = -1.0;
-                cam.cameraTrans(deltaPos);
+                carpos.z+=1;
             }
             else {
                 curEle += 0.1;
@@ -191,9 +194,7 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == 's') {
             if (freeCam) {
-                    Vec3d deltaPos;
-                deltaPos.z = 1.0;
-                cam.cameraTrans(deltaPos);
+                carpos.z-=1;
             }
             else {
                 curEle -= 0.1;
@@ -202,16 +203,12 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == 'q') {
             if (freeCam) {
-                    Vec3d deltaPos;
-                deltaPos.y = 1.0;
-                cam.cameraTrans(deltaPos);
+                carpos.y+=1;
             }
     }
     else if (key == 'z') {
             if (freeCam) {
-                    Vec3d deltaPos;
-                deltaPos.y = -1.0;
-                cam.cameraTrans(deltaPos);
+                carpos.y-=1;
             }
     }
     else if (key == 'r') {
@@ -228,8 +225,8 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
 }
 
 void special(int key, int mouseX, int mouseY) {
-    if (key == GLUT_KEY_LEFT) turret.rotateByY(5.0);
-    else if (key == GLUT_KEY_RIGHT) turret.rotateByY(-5.0);
+    if (key == GLUT_KEY_LEFT) objs[3].rotateByY(5.0);
+    else if (key == GLUT_KEY_RIGHT) objs[3].rotateByY(-5.0);
 
     glutPostRedisplay();
 }
@@ -292,17 +289,24 @@ int main(int argc, char** argv) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 
+    objs[0] = ImportObject();
+    objs[1] = ImportObject();
+    objs[2] = ImportObject();
+    objs[3] = ImportObject();
+    objs[4] = ImportObject();
+    carpos.x = 0.0; carpos.y = 0.0; carpos.z = 0.0;
+
 	light1.enableLight();
-	light1.makeLocal();
-    light1.setPos(Vec3f(2.0, 5.0, 0.0));
+	light1.makeInfDist();
+    light1.setPos(Vec3f(0.0, 20.0, 0.0));
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
-    car.importAll("car");
-    wheel1.importAll("front");
-    wheel1.moveTo(Vec3d(2.35,0.0,0.0));
-    wheel2.importAll("rear");
-    wheel2.moveTo(Vec3d(-2.75,0.15,0.0));
-    turret.importAll("turret");
+    objs[0].importAll("car");
+    objs[1].importAll("front");
+    objs[2].importAll("rear");
+    objs[3].importAll("turret");
+    objs[4].importAll("car");
+    objs[4].moveTo(Vec3d(2.0,2.0,0.0));
 	cam.setView();
 	cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
     glutIdleFunc(idle);

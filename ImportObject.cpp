@@ -222,6 +222,7 @@ void ImportObject::moveTo(Vec3d newPos) {this->pos = newPos;}
 void ImportObject::rotateByX(double dTheta) {this->orientation.x += dTheta;}
 void ImportObject::rotateByY(double dTheta) {this->orientation.y += dTheta;}
 void ImportObject::rotateByZ(double dTheta) {this->orientation.z += dTheta;}
+void ImportObject::setVelocity(Vec3d newVel) {this->velocity = newVel;}
 
 Vec3d ImportObject::getV3D(std::string line) {
     int indexX = line.find(" ", 0) + 1;
@@ -233,6 +234,7 @@ Vec3d ImportObject::getV3D(std::string line) {
     return Vec3d(x, y, z);
 }
 
+Vec3d ImportObject::getPos() {this->pos;}
 
 // Face class
 

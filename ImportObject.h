@@ -39,10 +39,12 @@ class ImportObject
         void drawObj();
         void drawObjDL();
 
+        void setVelocity(Vec3d newVel);
         void moveTo(Vec3d newPos);
         void rotateByX(double dTheta);
         void rotateByY(double dTheta);
         void rotateByZ(double dTheta);
+        Vec3d getPos();
 
     protected:
 
@@ -63,6 +65,7 @@ class ImportObject
 
         Vec3d getV3D(std::string line);
         Vec3d pos;
+        Vec3d velocity;
         Vec3d orientation;
 
 

@@ -14,4 +14,5 @@ void drawStringBitmap(double drawX, double drawY, std::string drawStr,
                       void* font=GLUT_BITMAP_9_BY_15);
 void drawStringStroke(std::string drawStr, void* font=GLUT_STROKE_ROMAN);
 
+
 #endif // HELPERS_H

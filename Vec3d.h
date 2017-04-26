@@ -18,4 +18,6 @@ class Vec3d
     private:
 };
 
+double dist(Vec3d pos_a, Vec3d pos_b);          // Distance between 2 Vec3d
+
 #endif // VEC3D_H

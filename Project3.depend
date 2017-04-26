@@ -167,17 +167,17 @@
 1491522305 c:\users\x74575\desktop\cs473-project-3\camera.h
 	"Vec3d.h"
 
-1491522364 c:\users\x74575\desktop\cs473-project-3\vec3d.h
+1493216849 c:\users\x74575\desktop\cs473-project-3\vec3d.h
 
-1493044556 source:c:\users\x74575\desktop\cs473-project-3\helpers.cpp
+1493216824 source:c:\users\x74575\desktop\cs473-project-3\helpers.cpp
 	"Helpers.h"
 	<cmath>
 
-1493044548 c:\users\x74575\desktop\cs473-project-3\helpers.h
+1493216828 c:\users\x74575\desktop\cs473-project-3\helpers.h
 	<string>
 	<GL/freeglut.h>
 
-1491522257 source:c:\users\x74575\desktop\cs473-project-3\importobject.cpp
+1493217327 source:c:\users\x74575\desktop\cs473-project-3\importobject.cpp
 	"ImportObject.h"
 	<iostream>
 	<sstream>
@@ -186,7 +186,7 @@
 	<stdlib.h>
 	"GL/freeglut.h"
 
-1491522269 c:\users\x74575\desktop\cs473-project-3\importobject.h
+1493217292 c:\users\x74575\desktop\cs473-project-3\importobject.h
 	<string>
 	<vector>
 	<map>
@@ -202,8 +202,9 @@
 	"Object3D.h"
 	"GL/freeglut.h"
 
-1491522344 source:c:\users\x74575\desktop\cs473-project-3\vec3d.cpp
+1493217075 source:c:\users\x74575\desktop\cs473-project-3\vec3d.cpp
 	"Vec3d.h"
+	<cmath>
 
 1490707568 source:c:\users\x74575\desktop\cs473-project-3\light.cpp
 	"Light.h"
@@ -228,13 +229,14 @@
 1490638468 source:c:\users\x74575\desktop\cs473-project-3\vec4f.cpp
 	"Vec4f.h"
 
-1493044651 source:c:\users\x74575\desktop\cs473-project-3\main.cpp
+1493217416 source:c:\users\x74575\desktop\cs473-project-3\main.cpp
 	<vector>
 	<iostream>
 	<cmath>
 	<string>
 	<sstream>
 	<stdio.h>
+	<math.h>
 	"Object3D.h"
 	"Camera.h"
 	<GL/glut.h>
