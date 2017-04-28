@@ -1,6 +1,6 @@
 //  --  //  --  //  --  //  main.cpp   //  --  //  --  //  --  //
 /** CS473: Computer Graphics
-  * Project 2
+  * Project 3
   * Modified from ICE Lesson 18: Camera and ICE Lesson 25: Lighting
   * Author: CDT Booth
   */
