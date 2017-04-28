@@ -135,7 +135,10 @@ void display() {
         if (i>3) {
             for (int j=0;j<num_objs;j++) {
                 if (i!=j) {
-                    1;//if (dist(objs[i].getPos(),objs[j].getPos()) < 0.1) objs[j] = ImportObject();
+                    float objs_dist = (float)dist(objs[i].getPos(),objs[j].getPos());
+                    printf("objs[%d]pos:%f,%f,%f\n",i,objs[i].getPos().x,objs[i].getPos().y,objs[i].getPos().z);
+                    printf("dist:%f\n",objs_dist);
+                    //if (dist(objs[i].getPos(),objs[j].getPos()) < 5.0) objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
                 }
             }
         }
@@ -144,7 +147,6 @@ void display() {
             else if (i==2) objs[2].moveTo(Vec3d(carpos.x-2.75,carpos.y+0.15,carpos.z));
             else objs[i].moveTo(carpos);
         }
-        //printf("drawing objs[%d]\n",i);
         objs[i].drawObjDL();
     }
 

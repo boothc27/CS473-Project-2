@@ -2,19 +2,65 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="Vec3d.h" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="346" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Vec3d.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="373" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="ImportObject.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="7521" topLine="33" />
+		</Cursor>
+		<Folding>
+			<Collapse line="19" />
+			<Collapse line="98" />
+			<Collapse line="137" />
+			<Collapse line="175" />
+			<Collapse line="206" />
+		</Folding>
+	</File>
+	<File name="Helpers.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1070" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4068" topLine="57" />
+		</Cursor>
+		<Folding>
+			<Collapse line="52" />
+			<Collapse line="68" />
+			<Collapse line="168" />
+			<Collapse line="228" />
+			<Collapse line="235" />
+			<Collapse line="244" />
+			<Collapse line="250" />
+			<Collapse line="263" />
+			<Collapse line="278" />
+		</Folding>
+	</File>
+	<File name="Light.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="54" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="ImportObject.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1129" topLine="24" />
+			<Cursor1 position="1139" topLine="18" />
 		</Cursor>
+		<Folding>
+			<Collapse line="17" />
+		</Folding>
 	</File>
 	<File name="Object3D.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="36" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Vec3d.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="64" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Light.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -22,19 +68,14 @@
 			<Cursor1 position="2901" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="Helpers.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="585" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Vec3d.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="401" topLine="0" />
-		</Cursor>
-	</File>
 	<File name="Object3D.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="38" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="Helpers.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="151" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="Camera.cpp" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -42,39 +83,9 @@
 			<Cursor1 position="105" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="4417" topLine="60" />
-		</Cursor>
-		<Folding>
-			<Collapse line="52" />
-			<Collapse line="68" />
-			<Collapse line="166" />
-			<Collapse line="226" />
-			<Collapse line="233" />
-			<Collapse line="242" />
-			<Collapse line="248" />
-			<Collapse line="261" />
-		</Folding>
-	</File>
 	<File name="Camera.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
 			<Cursor1 position="36" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="ImportObject.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7949" topLine="221" />
-		</Cursor>
-	</File>
-	<File name="Helpers.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1070" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="Light.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="54" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
