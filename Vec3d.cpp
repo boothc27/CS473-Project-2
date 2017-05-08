@@ -16,5 +16,6 @@ Vec3d::Vec3d(double ix, double iy, double iz) {
 }
 
 double dist(Vec3d a, Vec3d b) {
-    return a.x;
+    return sqrt(pow(a.x-b.x,2.0)+pow(a.y-b.y,2.0)+pow(a.z-b.z,2.0));
 }
+

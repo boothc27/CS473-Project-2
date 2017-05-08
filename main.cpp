@@ -29,13 +29,6 @@ bool lightingOn = false;
 
 double axisLength = 50.0;
 
-    GLfloat red[] = {1.0, 0.0, 0.0, 1.0};
-    GLfloat green[] = {0.0, 1.0, 0.0, 1.0};
-    GLfloat blue[] = {0.0, 0.0, 1.0, 1.0};
-    GLfloat white[] = {1.0, 1.0, 1.0, 1.0};
-    GLfloat black[] = {0.0, 0.0, 0.0, 1.0};
-    GLfloat gray[] = {0.5, 0.5, 0.5, 1.0};
-
 ImportObject objs[10];
 int num_objs = 5;
 Light light1 = Light(0);
@@ -126,19 +119,14 @@ void display() {
 	light1.drawLight();
     drawAxis();
 
-    glPushMatrix();
-    glMaterialfv(GL_FRONT, GL_AMBIENT, white);
-    glMaterialfv(GL_FRONT, GL_DIFFUSE, white);
-    glMaterialfv(GL_FRONT, GL_SPECULAR, white);
-    glMaterialf(GL_FRONT, GL_SHININESS, 1.0);
     for(int i=0;i<num_objs;i++) {
         if (i>3) {
             for (int j=0;j<num_objs;j++) {
                 if (i!=j) {
-                    float objs_dist = (float)dist(objs[i].getPos(),objs[j].getPos());
-                    printf("objs[%d]pos:%f,%f,%f\n",i,objs[i].getPos().x,objs[i].getPos().y,objs[i].getPos().z);
-                    printf("dist:%f\n",objs_dist);
-                    //if (dist(objs[i].getPos(),objs[j].getPos()) < 5.0) objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
+                    float objs_dist = dist(objs[i].getPos(),objs[j].getPos());
+                    //printf("objs[%d]pos:%f,%f,%f\n",i,objs[i].getPos().x,objs[i].getPos().y,objs[i].getPos().z);
+                    //printf("dist:%f\n",objs_dist);
+                    if (dist(objs[i].getPos(),objs[j].getPos()) < 3.0) objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
                 }
             }
         }
@@ -149,8 +137,6 @@ void display() {
         }
         objs[i].drawObjDL();
     }
-
-    glPopMatrix();
 
     drawHUD();
 
@@ -169,7 +155,9 @@ void idle() {
 void normKeys(unsigned char key, int mouseX, int mouseY) {
     if (key == 'd') {
             if (freeCam){
-                carpos.x+=1;
+                for (int i=0;i<4;i++) {
+                    objs[i].rotateByY(5.0);
+                }
             }
             else {
                 curAz -= 0.1;
@@ -308,7 +296,7 @@ int main(int argc, char** argv) {
     objs[2].importAll("rear");
     objs[3].importAll("turret");
     objs[4].importAll("car");
-    objs[4].moveTo(Vec3d(2.0,2.0,0.0));
+    objs[4].moveTo(Vec3d(-5.0,0.0,5.0));
 	cam.setView();
 	cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
     glutIdleFunc(idle);

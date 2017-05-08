@@ -111,18 +111,15 @@ void ImportObject::readMatl(std::string fName) {
         if (linePrefix == "newmtl") {
             matName = line.substr(7);
         }
-        else if (linePrefix == "Kd") {
+        else {
             matVal = getV3D(line);
-
-            // Updates our map with the name of the material as the key
-            // and the value is an integer representing the material
-            // Didn't implement a direct string to Vec3d map to make comparisons
-            // quicker in the drawing phase (only need to compare one integer
-            // to see if the color needs to be changed versus three doubles)
             this->matAbbrev.insert(std::pair<std::string, int>(matName, matCount));
-            this->materials.push_back(matVal);
-
-            matCount++;
+            if (linePrefix == "Ka") this->material_ka.push_back(matVal);
+            else if (linePrefix == "Kd") this->material_kd.push_back(matVal);
+            else if (linePrefix == "Ks") {
+                this->material_ks.push_back(matVal);
+                matCount++;
+            }
         }
     }
 
@@ -141,6 +138,7 @@ void ImportObject::drawObj() {
         return;
     }
 
+    glPushMatrix();
     glColor3f(1.0, 1.0, 1.0);
     int curMatNum = -1;
 
@@ -160,8 +158,20 @@ void ImportObject::drawObj() {
             // previous one used
             if (matNum != curMatNum) {
                 curMatNum = matNum;
-                Vec3d col = this->materials.at(matNum);
-                glColor3f(col.x, col.y, col.z);
+
+                Vec3d amb = this->material_ka.at(matNum);
+                Vec3d spec = this->material_ks.at(matNum);
+                Vec3d diff = this->material_kd.at(matNum);
+
+                GLfloat amb_col[] = {(GLfloat) amb.x, (GLfloat) amb.y, (GLfloat) amb.z, 1.0};
+                GLfloat spec_col[] = {(GLfloat) spec.x, (GLfloat) spec.y, (GLfloat) spec.z, 1.0};
+                GLfloat diff_col[] = {(GLfloat) diff.x, (GLfloat) diff.y, (GLfloat) diff.z, 1.0};
+
+
+                glMaterialfv(GL_FRONT, GL_AMBIENT, amb_col);
+                glMaterialfv(GL_FRONT, GL_SPECULAR, spec_col);
+                glMaterialfv(GL_FRONT, GL_DIFFUSE, diff_col);
+                glMaterialf(GL_FRONT, GL_SHININESS, 1.0);
             }
 
             glNormal3d(norm.x, norm.y, norm.z);
@@ -169,6 +179,8 @@ void ImportObject::drawObj() {
         }
         glEnd();
     }
+    glPopMatrix();
+
 
 }
 
@@ -176,7 +188,9 @@ void ImportObject::drawObj() {
 void ImportObject::importAll(std::string baseName) {
     this->vertecies.clear();
     this->normals.clear();
-    this->materials.clear();
+    this->material_ka.clear();
+    this->material_kd.clear();
+    this->material_ks.clear();
     this->matAbbrev.clear();
 
     std::string matName = baseName + ".mtl";
@@ -224,7 +238,7 @@ void ImportObject::rotateByX(double dTheta) {this->orientation.x += dTheta;}
 void ImportObject::rotateByY(double dTheta) {this->orientation.y += dTheta;}
 void ImportObject::rotateByZ(double dTheta) {this->orientation.z += dTheta;}
 void ImportObject::setVelocity(Vec3d newVel) {this->velocity = newVel;}
-Vec3d ImportObject::getPos() {this->pos;}
+Vec3d ImportObject::getPos() {return this->pos;}
 
 Vec3d ImportObject::getV3D(std::string line) {
     int indexX = line.find(" ", 0) + 1;

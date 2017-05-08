@@ -61,7 +61,9 @@ class ImportObject
         std::vector<Vec3d> normals;
         std::vector<Face> faces;
         std::map<std::string, int> matAbbrev;
-        std::vector<Vec3d> materials;
+        std::vector<Vec3d> material_ka;
+        std::vector<Vec3d> material_kd;
+        std::vector<Vec3d> material_ks;
 
         Vec3d getV3D(std::string line);
         Vec3d pos;
