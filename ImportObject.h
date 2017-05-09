@@ -60,6 +60,7 @@ class ImportObject
         GLuint dlNumber;
 
         std::vector<Vec3d> vertecies;
+        std::vector<Vec3d> vts;
         std::vector<Vec3d> normals;
         std::vector<Face> faces;
         std::map<std::string, int> matAbbrev;

@@ -49,6 +49,7 @@ void ImportObject::readObj(std::string fName) {
 
         // Vertex texture - ignored in this implementation
         else if (linePrefix == "vt") {
+                this->vts.push_back(this->getV3D(line));
         }
 
         // Switches the current material being used
@@ -73,10 +74,11 @@ void ImportObject::readObj(std::string fName) {
                 indx = nextDelim;
 
                 // We need to break up our chunk around the //
-                int indxA = chunk.find("//");
+                int indxA = chunk.find("/");
                 int indxB = chunk.find_last_of("/");
 
                 int vert = (int)strtol(chunk.substr(0, indxA).c_str(), NULL, 10);
+                int txtr = (int)strtol(chunk.substr(indxA+1,indxB).c_str(), NULL, 10);
                 int norm = (int)strtol(chunk.substr(indxB + 1).c_str(), NULL, 10);
 
                 newFace.addVertNorm(vert, norm, curMat);
@@ -188,6 +190,7 @@ void ImportObject::drawObj() {
 
 void ImportObject::importAll(std::string baseName) {
     this->vertecies.clear();
+    this->vts.clear();
     this->normals.clear();
     this->material_ka.clear();
     this->material_kd.clear();
