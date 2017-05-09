@@ -22,6 +22,7 @@ class Camera
         void setFOV(double fov);
 
         Vec3d getLookAt();
+        Vec3d getPos();
 
 
 

@@ -2,7 +2,7 @@
 #include <cmath>
 #include "stdio.h"
 #include "GL/freeglut.h"
-
+#include "Helpers.h"
 #include "Camera.h"
 
 Camera::Camera(){
@@ -16,6 +16,8 @@ Camera::Camera(){
 void Camera::moveCameraTo(Vec3d newPos) {
     this->pos = newPos;
 }
+
+Vec3d Camera::getPos() {return this->pos;}
 
 void Camera::moveCameraBy(Vec3d deltaPos) {
     this->pos.x += deltaPos.x;
@@ -34,9 +36,9 @@ void Camera::setUpVec(Vec3d newVec) {
 void Camera::cameraPan(Vec3d lookPos, double azimuth, double dist, double elev) {
     // This function will set the camera's pos and lookAt attributes.
     this->lookAt = lookPos;
-    double x = dist*cos(azimuth);
+    double x = dist*cos(toRadians(azimuth));
     double y = elev;
-    double z = dist*sin(azimuth);
+    double z = dist*sin(toRadians(azimuth));
     this->moveCameraTo(Vec3d(x,y,z));
 }
 

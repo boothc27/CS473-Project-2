@@ -239,6 +239,7 @@ void ImportObject::rotateByY(double dTheta) {this->orientation.y += dTheta;}
 void ImportObject::rotateByZ(double dTheta) {this->orientation.z += dTheta;}
 void ImportObject::setVelocity(Vec3d newVel) {this->velocity = newVel;}
 Vec3d ImportObject::getPos() {return this->pos;}
+Vec3d ImportObject::getOrientation() {return this->orientation;}
 
 Vec3d ImportObject::getV3D(std::string line) {
     int indexX = line.find(" ", 0) + 1;

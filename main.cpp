@@ -33,15 +33,18 @@ ImportObject objs[10];
 int num_objs = 5;
 Light light1 = Light(0);
 Camera cam = Camera();
-double curAz = 45;
-double curDist = 5.0;
+double curAz = -180;
+double curDist = 7.0;
 double curEle = 5.0;
 int prevX, prevY, prevZ = 0;
 int dX, dY, dZ = 0;
 Vec3d carpos;
+int timer = 5000;
+int score = 0;
 bool rightMouse = false;
 bool middleMouse = false;
 bool freeCam = true;
+bool game = false;
 
 void drawAxis() {
     glBegin(GL_LINES);
@@ -114,10 +117,17 @@ void display() {
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    cam.cameraLookAt(carpos);
+	cam.cameraLookAt(carpos);
 	cam.setView();
+    Vec3d orient = objs[0].getOrientation();
+    double x = -5.0*cos(toRadians(orient.y));
+    double z = 5.0*sin(toRadians(orient.y));
+    Vec3d campos(carpos.x + x, 4.0, carpos.z + z);
+	cam.moveCameraTo(campos);
 	light1.drawLight();
-    drawAxis();
+	if (game) {
+        if (timer > 0) timer-=1;
+	}
 
     for(int i=0;i<num_objs;i++) {
         if (i>3) {
@@ -126,15 +136,17 @@ void display() {
                     float objs_dist = dist(objs[i].getPos(),objs[j].getPos());
                     //printf("objs[%d]pos:%f,%f,%f\n",i,objs[i].getPos().x,objs[i].getPos().y,objs[i].getPos().z);
                     //printf("dist:%f\n",objs_dist);
-                    if (dist(objs[i].getPos(),objs[j].getPos()) < 3.0) objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
+                    if (dist(objs[i].getPos(),objs[j].getPos()) < 3.0) {
+                        objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
+                        score+=1;
+                    }
                 }
             }
         }
         else {
-            if (i==1) objs[1].moveTo(Vec3d(carpos.x+2.35,carpos.y,carpos.z));
-            else if (i==2) objs[2].moveTo(Vec3d(carpos.x-2.75,carpos.y+0.15,carpos.z));
-            else objs[i].moveTo(carpos);
+            objs[i].moveTo(carpos);
         }
+        printf("az %f, dst %f, ele %f\n",curAz,curDist,curEle);
         objs[i].drawObjDL();
     }
 
@@ -156,26 +168,32 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     if (key == 'd') {
             if (freeCam){
                 for (int i=0;i<4;i++) {
-                    objs[i].rotateByY(5.0);
+                    objs[i].rotateByY(-5.0);
                 }
             }
             else {
-                curAz -= 0.1;
+                curAz -= 5.0;
                 cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
             }
     }
     else if (key == 'a') {
             if (freeCam) {
-                carpos.x-=1;
+                for (int i=0;i<4;i++) {
+                    objs[i].rotateByY(5.0);
+                }
             }
             else {
-                curAz += 0.1;
+                curAz += 5.0;
                 cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
             }
     }
     else if (key == 'w') {
             if (freeCam) {
-                carpos.z+=1;
+                Vec3d orient = objs[0].getOrientation();
+                double x = 1.0*cos(-toRadians(orient.y));
+                double z = 1.0*sin(-toRadians(orient.y));
+                carpos.x+=x;
+                carpos.z+=z;
             }
             else {
                 curEle += 0.1;
@@ -184,7 +202,11 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == 's') {
             if (freeCam) {
-                carpos.z-=1;
+                Vec3d orient = objs[0].getOrientation();
+                double x = -1.0*cos(-toRadians(orient.y));
+                double z = -1.0*sin(-toRadians(orient.y));
+                carpos.x+=x;
+                carpos.z+=z;
             }
             else {
                 curEle -= 0.1;
@@ -225,7 +247,7 @@ void mouseDelta(int x, int y) {
     dX = x-prevX;
     dY = y-prevY;
     curEle+=-dY/100.0;
-    curAz+=toRadians(dX/10.0);
+    curAz+=(dX/10.0);
     prevX = x;
     prevY = y;
 }

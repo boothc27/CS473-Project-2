@@ -97,18 +97,19 @@
 	"GL/freeglut.h"
 	"Object3D.h"
 
-1491242448 source:c:\users\x74575\documents\github\cs473-project-2\camera.cpp
+1494291802 source:c:\users\x74575\documents\github\cs473-project-2\camera.cpp
 	<cmath>
 	"stdio.h"
 	"GL/freeglut.h"
+	"Helpers.h"
 	"Camera.h"
 
-1491242448 c:\users\x74575\documents\github\cs473-project-2\camera.h
+1494291537 c:\users\x74575\documents\github\cs473-project-2\camera.h
 	"Vec3d.h"
 
-1491242448 c:\users\x74575\documents\github\cs473-project-2\vec3d.h
+1493744660 c:\users\x74575\documents\github\cs473-project-2\vec3d.h
 
-1491421078 source:c:\users\x74575\documents\github\cs473-project-2\importobject.cpp
+1494289476 source:c:\users\x74575\documents\github\cs473-project-2\importobject.cpp
 	"ImportObject.h"
 	<iostream>
 	<sstream>
@@ -117,7 +118,7 @@
 	<stdlib.h>
 	"GL/freeglut.h"
 
-1491419803 c:\users\x74575\documents\github\cs473-project-2\importobject.h
+1494289487 c:\users\x74575\documents\github\cs473-project-2\importobject.h
 	<string>
 	<vector>
 	<map>
@@ -125,36 +126,40 @@
 	"GL/freeglut.h"
 	"Object3D.h"
 
-1491326354 c:\users\x74575\documents\github\cs473-project-2\object3d.h
+1494288884 c:\users\x74575\documents\github\cs473-project-2\object3d.h
 	"Vec3d.h"
 	"ImportObject.h"
 
-1491519937 source:c:\users\x74575\documents\github\cs473-project-2\main.cpp
+1494292937 source:c:\users\x74575\documents\github\cs473-project-2\main.cpp
 	<vector>
 	<iostream>
 	<cmath>
 	<string>
 	<sstream>
 	<stdio.h>
+	<math.h>
 	"Object3D.h"
 	"Camera.h"
 	<GL/glut.h>
 	"GL/freeglut.h"
 	"ImportObject.h"
+	"Light.h"
 	"Helpers.h"
 
-1491242448 source:c:\users\x74575\documents\github\cs473-project-2\object3d.cpp
+1494288884 source:c:\users\x74575\documents\github\cs473-project-2\object3d.cpp
 	"Object3D.h"
 	"GL/freeglut.h"
 
-1491242448 source:c:\users\x74575\documents\github\cs473-project-2\vec3d.cpp
+1494288888 source:c:\users\x74575\documents\github\cs473-project-2\vec3d.cpp
 	"Vec3d.h"
+	<cmath>
+	<stdio.h>
 
-1491516823 source:c:\users\x74575\documents\github\cs473-project-2\helpers.cpp
+1494288884 source:c:\users\x74575\documents\github\cs473-project-2\helpers.cpp
 	"Helpers.h"
 	<cmath>
 
-1491516807 c:\users\x74575\documents\github\cs473-project-2\helpers.h
+1494288884 c:\users\x74575\documents\github\cs473-project-2\helpers.h
 	<string>
 	<GL/freeglut.h>
 
@@ -332,5 +337,28 @@
 	"Vec3f.h"
 
 1494208104 source:s:\cs473-project-2\vec4f.cpp
+	"Vec4f.h"
+
+1493744660 source:c:\users\x74575\documents\github\cs473-project-2\light.cpp
+	"Light.h"
+	<iostream>
+	<stdio.h>
+
+1493744660 c:\users\x74575\documents\github\cs473-project-2\light.h
+	"Vec3f.h"
+	"Vec4f.h"
+	"GL/freeglut.h"
+
+1493744660 c:\users\x74575\documents\github\cs473-project-2\vec3f.h
+	"GL/freeglut.h"
+
+1493744660 c:\users\x74575\documents\github\cs473-project-2\vec4f.h
+	"GL/freeglut.h"
+	"Vec3f.h"
+
+1493744660 source:c:\users\x74575\documents\github\cs473-project-2\vec3f.cpp
+	"Vec3f.h"
+
+1493744660 source:c:\users\x74575\documents\github\cs473-project-2\vec4f.cpp
 	"Vec4f.h"
 
