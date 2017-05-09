@@ -17,6 +17,7 @@
 				<Linker>
 					<Add library="freeglut" />
 					<Add library="glu32" />
+					<Add library="SOIL" />
 					<Add library="opengl32" />
 				</Linker>
 			</Target>

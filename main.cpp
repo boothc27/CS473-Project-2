@@ -20,6 +20,8 @@
 #include "ImportObject.h"
 #include "Light.h"
 #include "Helpers.h"
+#include "GL/glext.h"
+#include "SOIL.h"
 
 int frameRate = 60;     // Limit on FPS rate
 int frameRateMS = 1000 / frameRate;
@@ -31,7 +33,7 @@ bool lightingOn = false;
 double axisLength = 50.0;
 
 ImportObject objs[20];
-int num_objs = 5;
+int num_objs = 9;
 Light light1 = Light(0);
 Camera cam = Camera();
 double curAz = -180;
@@ -46,65 +48,71 @@ bool rightMouse = false;
 bool middleMouse = false;
 bool hullCam = true;
 bool game = false;
+GLuint tex;
 
 void drawAxis() {
-    glBegin(GL_LINES);
-        glColor3f(1.0, 0.0, 0.0);   // Red for X-axis
-        glVertex3f(-axisLength, 0, 0);
-        glVertex3f(axisLength, 0, 0);
+    glClearColor(1, 1, 1, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	cam.setView();
 
-        glColor3f(0.0, 1.0, 0.0);   // Green for Y-axis
-        glVertex3f(0, -axisLength, 0);
-        glVertex3f(0, axisLength, 0);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glEnable(GL_TEXTURE_2D);
 
-        glColor3f(0.0, 0.0, 1.0);   // Blue for Z-axis
-        glVertex3f(0, 0, -axisLength);
-        glVertex3f(0, 0, axisLength);
+    glBegin(GL_POLYGON);
+        // Top right
+        glColor3f(1.0, 1.0, 1.0);
+        glTexCoord2f(1.0, 1.0);
+        glVertex3f(50, -0.5, 50);
+
+        glTexCoord2f(0.0, 1.0);
+        glVertex3f(-50, -0.5, 50);
+
+        glTexCoord2f(0.0, 0.0);
+        glVertex3f(-50, -0.5, -50);
+
+        glTexCoord2f(1.0, 0.0);
+        glVertex3f(50, -0.5, -50);
+        glColor3f(1.0, 1.0, 1.0);
     glEnd();
+    glDisable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void drawHUD() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(0.0,2.0,0.0,1.0);
-    glViewport(0, windowSize[1] - 200, 200, 200);
 
     glColor3f(0.5, 0.5, 0.5);
     using namespace std;
     ostringstream txt;
-    txt << "R: Reset Camera";
+
+    glViewport(windowSize[0]/2-50, windowSize[1] - 100, 100, 100);
+    if (game) {
+        txt << "Time: " << timer/10;
+        drawStringBitmap(0.1, 0.2, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+        txt << "Score: " << score;
+        drawStringBitmap(0.1, 0, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+    }
+    else {
+        txt << "R: Start Game";
+        drawStringBitmap(0.1, 0.2, txt.str(), GLUT_BITMAP_8_BY_13);
+        txt.str("");
+    }
+
+    glViewport(0, windowSize[1] - 200, 200, 200);
+    txt << "WASD: Move Car";
     drawStringBitmap(0.1, 0.65, txt.str(), GLUT_BITMAP_8_BY_13);
     txt.str("");
     txt << "Arrow Keys: Move Turret";
     drawStringBitmap(0.1, 0.55, txt.str(), GLUT_BITMAP_8_BY_13);
     txt.str("");
-    txt << "Hold Right Mouse: Pan Camera";
-    drawStringBitmap(0.1, 0.45, txt.str(), GLUT_BITMAP_8_BY_13);
-    txt.str("");
-    txt << "Hold Middle Mouse: Zoom Camera";
-    drawStringBitmap(0.1, 0.35, txt.str(), GLUT_BITMAP_8_BY_13);
-    txt.str("");
-    if (hullCam) {
-        txt << "A/D: Move Camera in X";
-        drawStringBitmap(0.1, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
-        txt.str("");
-        txt << "Q/Z: Move Camera in Y";
-        drawStringBitmap(0.1, 0.15, txt.str(), GLUT_BITMAP_8_BY_13);
-        txt.str("");
-        txt << "W/S: Move Camera in Z";
-        drawStringBitmap(0.1, 0.05, txt.str(), GLUT_BITMAP_8_BY_13);
-        txt.str("");
-    }
-    else {
-        txt << "WASD: Pan Camera";
-        drawStringBitmap(0.1, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
-        txt.str("");
-    }
-
 
     glViewport(windowSize[0]-200, windowSize[1] - 100, 200, 100);
-    if (hullCam) txt << "Camera Mode: Free";
-    else txt << "Camera Mode: Locked";
+    if (hullCam) txt << "Camera Mode: Body";
+    else txt << "Camera Mode: Turret";
     drawStringBitmap(0, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
     txt.str("");
     txt << "F to Toggle";
@@ -112,12 +120,68 @@ void drawHUD() {
     txt.str("");
 }
 
+GLuint loadTexture(std::string filename) {
+    // Placeholder variables - will be set later in the function
+    GLuint textureNum;
+    int height, width;
+
+    // Loads the image file
+    unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
+    if (image == NULL) {
+        std::cout << "ERROR: Failed to load texture file:" << filename << "\n";
+        return -1;
+    }
+
+    // Generates a new texture number and stores it under our variable above.
+    // Note the & before the variable name indicates we are passing the
+    // memory address of the variable to the function
+    glGenTextures(1, &textureNum);
+
+    // Now we tell OpenGL that which texture we're "working with"
+    // i.e. setting parameters for.
+    glBindTexture(GL_TEXTURE_2D, textureNum);
+
+    // Specifies how OpenGL will handle texture coordinates greater than 1.0
+    // and less than 0.0.
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   // X-axis
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);   // Y-axis
+
+    // Specifies how OpenGL will interpolate the texture if it needs
+    // to scale it up or down to match the size of the face that we are
+    // painting the texture on.
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    // Now that we've set the parameters, we're going to convert the SOIL
+    // image into a texture that is bound to the textureNum we established above
+    glTexImage2D(GL_TEXTURE_2D,
+                 0,                 // mipmap level; we'll leave it at 0
+                 GL_RGB,            // format to store texture
+                 width, height,     // dimensions of texture
+                 0,                 // legacy parameter; leave at 0
+                 GL_RGB,            // format of source image
+                 GL_UNSIGNED_BYTE,  // how we stored the source image
+                 image);            // image file to load
+
+    // The texture is imported, so we don't need our image taking up
+    // space in memory any more.
+    SOIL_free_image_data(image);
+
+    // Set the currently bound texture to 0 (to ensure that later glTexParameters
+    // or other such functions don't accidentally mess up the texture we just
+    // imported)
+    glBindTexture(GL_TEXTURE_2D, 0);
+    return textureNum;
+}
+
 void display() {
     glViewport(0, 0, windowSize[0], windowSize[1]);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     glMatrixMode(GL_PROJECTION);
+    drawAxis();
+
     glLoadIdentity();
+
 	cam.cameraLookAt(carpos);
 	cam.setView();
 	Vec3d orient;
@@ -128,6 +192,7 @@ void display() {
     Vec3d campos(carpos.x + x, 4.0, carpos.z + z);
 	cam.moveCameraTo(campos);
 	light1.drawLight();
+
 	if (game) {
         if (timer > 0) timer-=1;
 	}
@@ -137,12 +202,12 @@ void display() {
         objs[i].moveTo(newpos);
         if (i>3) {
             for (int j=0;j<num_objs;j++) {
-                if (i!=j) {
+                if (i!=j && i < 10 && (j < 3 || j > 10)) {
                     //printf("objs[%d]pos:%f,%f,%f\n",i,objs[i].getPos().x,objs[i].getPos().y,objs[i].getPos().z);
                     //printf("dist:%f\n",objs_dist);
-                    if (dist(objs[i].getPos(),objs[j].getPos()) < 3.0) {
+                    if (dist(objs[i].getPos(),objs[j].getPos()) < 2.0) {
 
-                        objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
+                        objs[i].moveTo(Vec3d(0.0,10.0,0.0));
                         score+=1;
                     }
                 }
@@ -195,6 +260,8 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == 'r') {
         game = true;
+        timer = 5000;
+        score = 0;
     }
     else if (key == 'f') {
         if (hullCam) hullCam = false;
@@ -202,14 +269,15 @@ void normKeys(unsigned char key, int mouseX, int mouseY) {
     }
     else if (key == ' ') {
         objs[num_objs] = ImportObject();
-        objs[num_objs].importAll("turret");
+        objs[num_objs].importAll("shell");
         Vec3d orient = objs[3].getOrientation();
         double x = 2.0*cos(-toRadians(orient.y));
         double z = 2.0*sin(-toRadians(orient.y));
-        objs[num_objs].moveTo(Vec3d {carpos.x, carpos.y+2.0, carpos.z});
+        objs[num_objs].moveTo(Vec3d {carpos.x, carpos.y+1.5, carpos.z});
+        objs[num_objs].rotateByY(orient.y);
         objs[num_objs].setVelocity(Vec3d {x,0.0,z});
         if (num_objs == 19) {
-            num_objs = 5;
+            num_objs = 10;
         }
         else num_objs+=1;
     }
@@ -280,12 +348,12 @@ int main(int argc, char** argv) {
 	glutMotionFunc(mouseMove);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
+    tex= SOIL_load_OGL_texture("grass.jpg", SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
+    glBindTexture(GL_TEXTURE_2D, 0);
 
-    objs[0] = ImportObject();
-    objs[1] = ImportObject();
-    objs[2] = ImportObject();
-    objs[3] = ImportObject();
-    objs[4] = ImportObject();
+    for (int i=0;i<9;i++) {
+        objs[i] = ImportObject();
+    }
     carpos.x = 0.0; carpos.y = 0.0; carpos.z = 0.0;
 
 	light1.enableLight();
@@ -297,11 +365,17 @@ int main(int argc, char** argv) {
     objs[1].importAll("front");
     objs[2].importAll("rear");
     objs[3].importAll("turret");
-    objs[4].importAll("car");
-    objs[4].moveTo(Vec3d(-5.0,0.0,5.0));
-	cam.setView();
-	cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
+    for (int i=4;i<9;i++) {
+        objs[i].importAll("box");
+    }
+    objs[4].moveTo(Vec3d(-20.0,1.0,17.0));
+    objs[5].moveTo(Vec3d(-15.0,1.0,18.0));
+    objs[6].moveTo(Vec3d(-24.0,1.0,-14.0));
+    objs[7].moveTo(Vec3d(-12.0,1.0,-31.0));
+    objs[8].moveTo(Vec3d(12.0,1.0,-11.0));
+    objs[9].moveTo(Vec3d(26.0,1.0,14.0));
     glutIdleFunc(idle);
+    glEnable(GL_DEPTH_TEST);
 
 	glutMainLoop();
 }
