@@ -365,3 +365,67 @@
 1493744660 source:c:\users\x74575\documents\github\cs473-project-2\vec4f.cpp
 	"Vec4f.h"
 
+1494291802 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\camera.cpp
+	<cmath>
+	"stdio.h"
+	"GL/freeglut.h"
+	"Helpers.h"
+	"Camera.h"
+
+1494288884 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\helpers.h
+	<string>
+	<GL/freeglut.h>
+
+1494291537 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\camera.h
+	"Vec3d.h"
+
+1493744660 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\vec3d.h
+
+1494288884 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\helpers.cpp
+	"Helpers.h"
+	<cmath>
+
+1493744660 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\light.cpp
+	"Light.h"
+	<iostream>
+	<stdio.h>
+
+1493744660 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\light.h
+	"Vec3f.h"
+	"Vec4f.h"
+	"GL/freeglut.h"
+
+1493744660 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\vec3f.h
+	"GL/freeglut.h"
+
+1493744660 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\vec4f.h
+	"GL/freeglut.h"
+	"Vec3f.h"
+
+1494288884 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\object3d.cpp
+	"Object3D.h"
+	"GL/freeglut.h"
+
+1494288884 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\object3d.h
+	"Vec3d.h"
+	"ImportObject.h"
+
+1494328915 \\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\importobject.h
+	<string>
+	<vector>
+	<map>
+	"Vec3d.h"
+	"GL/freeglut.h"
+	"Object3D.h"
+
+1494288888 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\vec3d.cpp
+	"Vec3d.h"
+	<cmath>
+	<stdio.h>
+
+1493744660 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\vec3f.cpp
+	"Vec3f.h"
+
+1493744660 source:\\usmasvddeecs\eecs\cadet\courses\cs\cs473\172\booth_christopher\project3\vec4f.cpp
+	"Vec4f.h"
+

@@ -339,7 +339,7 @@ int main(int argc, char** argv) {
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(windowSize[0], windowSize[1]);
 	glutInitWindowPosition(100, 150);
-	glutCreateWindow("CS473 ICE18: 3D Camera");
+	glutCreateWindow("Booth Project3");
 	lastFrame = glutGet(GLUT_ELAPSED_TIME);
 	glutDisplayFunc(display);
 	glutKeyboardFunc(normKeys);
