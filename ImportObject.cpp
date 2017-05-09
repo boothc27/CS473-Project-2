@@ -118,6 +118,7 @@ void ImportObject::readMatl(std::string fName) {
             else if (linePrefix == "Kd") this->material_kd.push_back(matVal);
             else if (linePrefix == "Ks") {
                 this->material_ks.push_back(matVal);
+                // Conversation with CDT Royal about when to increment matCount to correctly align indexes and values
                 matCount++;
             }
         }

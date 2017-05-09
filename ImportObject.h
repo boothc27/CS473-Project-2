@@ -63,6 +63,8 @@ class ImportObject
         std::vector<Vec3d> normals;
         std::vector<Face> faces;
         std::map<std::string, int> matAbbrev;
+        // Conversation with CDT Royal about reading material for lighting
+        // Specifically, what data structures to use to read in different material values
         std::vector<Vec3d> material_ka;
         std::vector<Vec3d> material_kd;
         std::vector<Vec3d> material_ks;
