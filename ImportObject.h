@@ -46,6 +46,7 @@ class ImportObject
         void rotateByZ(double dTheta);
         Vec3d getPos();
         Vec3d getOrientation();
+        Vec3d getVel();
 
     protected:
 

@@ -251,13 +251,14 @@
 	"Light.h"
 	"Helpers.h"
 
-1494208104 source:s:\cs473-project-2\camera.cpp
+1494293991 source:s:\cs473-project-2\camera.cpp
 	<cmath>
 	"stdio.h"
 	"GL/freeglut.h"
+	"Helpers.h"
 	"Camera.h"
 
-1494208104 s:\cs473-project-2\camera.h
+1494293991 s:\cs473-project-2\camera.h
 	"Vec3d.h"
 
 1494211073 s:\cs473-project-2\vec3d.h
@@ -270,7 +271,7 @@
 	<string>
 	<GL/freeglut.h>
 
-1494211991 source:s:\cs473-project-2\importobject.cpp
+1494296208 source:s:\cs473-project-2\importobject.cpp
 	"ImportObject.h"
 	<iostream>
 	<sstream>
@@ -279,7 +280,7 @@
 	<stdlib.h>
 	"GL/freeglut.h"
 
-1494209764 s:\cs473-project-2\importobject.h
+1494296187 s:\cs473-project-2\importobject.h
 	<string>
 	<vector>
 	<map>
@@ -308,7 +309,7 @@
 	"GL/freeglut.h"
 	"Vec3f.h"
 
-1494212322 source:s:\cs473-project-2\main.cpp
+1494295595 source:s:\cs473-project-2\main.cpp
 	<vector>
 	<iostream>
 	<cmath>

@@ -1,8 +1,9 @@
 //  --  //  --  //  --  //  main.cpp   //  --  //  --  //  --  //
 /** CS473: Computer Graphics
   * Project 3
-  * Modified from ICE Lesson 18: Camera and ICE Lesson 25: Lighting
+  * Modified from ICE Lesson 18: Camera and ICE Lesson 25: Lighting and ICE Lesson 27: Textures
   * Author: CDT Booth
+  * Grass texture from: http://naldzgraphics.net/freebies/30-free-high-resolution-grass-textures/
   */
 
 #include <vector>
@@ -29,7 +30,7 @@ bool lightingOn = false;
 
 double axisLength = 50.0;
 
-ImportObject objs[10];
+ImportObject objs[20];
 int num_objs = 5;
 Light light1 = Light(0);
 Camera cam = Camera();
@@ -43,7 +44,7 @@ int timer = 5000;
 int score = 0;
 bool rightMouse = false;
 bool middleMouse = false;
-bool freeCam = true;
+bool hullCam = true;
 bool game = false;
 
 void drawAxis() {
@@ -83,7 +84,7 @@ void drawHUD() {
     txt << "Hold Middle Mouse: Zoom Camera";
     drawStringBitmap(0.1, 0.35, txt.str(), GLUT_BITMAP_8_BY_13);
     txt.str("");
-    if (freeCam) {
+    if (hullCam) {
         txt << "A/D: Move Camera in X";
         drawStringBitmap(0.1, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
         txt.str("");
@@ -102,7 +103,7 @@ void drawHUD() {
 
 
     glViewport(windowSize[0]-200, windowSize[1] - 100, 200, 100);
-    if (freeCam) txt << "Camera Mode: Free";
+    if (hullCam) txt << "Camera Mode: Free";
     else txt << "Camera Mode: Locked";
     drawStringBitmap(0, 0.25, txt.str(), GLUT_BITMAP_8_BY_13);
     txt.str("");
@@ -119,7 +120,9 @@ void display() {
     glLoadIdentity();
 	cam.cameraLookAt(carpos);
 	cam.setView();
-    Vec3d orient = objs[0].getOrientation();
+	Vec3d orient;
+	if (hullCam) orient = objs[0].getOrientation();
+	else orient = objs[3].getOrientation();
     double x = -5.0*cos(toRadians(orient.y));
     double z = 5.0*sin(toRadians(orient.y));
     Vec3d campos(carpos.x + x, 4.0, carpos.z + z);
@@ -130,13 +133,15 @@ void display() {
 	}
 
     for(int i=0;i<num_objs;i++) {
+        Vec3d newpos(objs[i].getPos().x+objs[i].getVel().x,objs[i].getPos().y+objs[i].getVel().y,objs[i].getPos().z+objs[i].getVel().z);
+        objs[i].moveTo(newpos);
         if (i>3) {
             for (int j=0;j<num_objs;j++) {
                 if (i!=j) {
-                    float objs_dist = dist(objs[i].getPos(),objs[j].getPos());
                     //printf("objs[%d]pos:%f,%f,%f\n",i,objs[i].getPos().x,objs[i].getPos().y,objs[i].getPos().z);
                     //printf("dist:%f\n",objs_dist);
                     if (dist(objs[i].getPos(),objs[j].getPos()) < 3.0) {
+
                         objs[i].moveTo(Vec3d(0.0,-10.0,0.0));
                         score+=1;
                     }
@@ -146,7 +151,6 @@ void display() {
         else {
             objs[i].moveTo(carpos);
         }
-        printf("az %f, dst %f, ele %f\n",curAz,curDist,curEle);
         objs[i].drawObjDL();
     }
 
@@ -166,72 +170,48 @@ void idle() {
 
 void normKeys(unsigned char key, int mouseX, int mouseY) {
     if (key == 'd') {
-            if (freeCam){
                 for (int i=0;i<4;i++) {
                     objs[i].rotateByY(-5.0);
                 }
-            }
-            else {
-                curAz -= 5.0;
-                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
-            }
     }
     else if (key == 'a') {
-            if (freeCam) {
                 for (int i=0;i<4;i++) {
                     objs[i].rotateByY(5.0);
                 }
-            }
-            else {
-                curAz += 5.0;
-                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
-            }
     }
     else if (key == 'w') {
-            if (freeCam) {
                 Vec3d orient = objs[0].getOrientation();
                 double x = 1.0*cos(-toRadians(orient.y));
                 double z = 1.0*sin(-toRadians(orient.y));
                 carpos.x+=x;
                 carpos.z+=z;
-            }
-            else {
-                curEle += 0.1;
-                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
-            }
     }
     else if (key == 's') {
-            if (freeCam) {
                 Vec3d orient = objs[0].getOrientation();
                 double x = -1.0*cos(-toRadians(orient.y));
                 double z = -1.0*sin(-toRadians(orient.y));
                 carpos.x+=x;
                 carpos.z+=z;
-            }
-            else {
-                curEle -= 0.1;
-                cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
-            }
-    }
-    else if (key == 'q') {
-            if (freeCam) {
-                carpos.y+=1;
-            }
-    }
-    else if (key == 'z') {
-            if (freeCam) {
-                carpos.y-=1;
-            }
     }
     else if (key == 'r') {
-        curAz = 45.0;
-        curEle = 5.0;
-        curDist = 5.0;
-        cam.cameraPan(Vec3d(0.0,0.0,0.0), curAz, curDist, curEle);
+        game = true;
     }
     else if (key == 'f') {
-        if (freeCam) freeCam = false;
-        else freeCam = true;
+        if (hullCam) hullCam = false;
+        else hullCam = true;
+    }
+    else if (key == ' ') {
+        objs[num_objs] = ImportObject();
+        objs[num_objs].importAll("turret");
+        Vec3d orient = objs[3].getOrientation();
+        double x = 2.0*cos(-toRadians(orient.y));
+        double z = 2.0*sin(-toRadians(orient.y));
+        objs[num_objs].moveTo(Vec3d {carpos.x, carpos.y+2.0, carpos.z});
+        objs[num_objs].setVelocity(Vec3d {x,0.0,z});
+        if (num_objs == 19) {
+            num_objs = 5;
+        }
+        else num_objs+=1;
     }
     glutPostRedisplay();
 }
@@ -261,7 +241,7 @@ void zoomDelta(int x, int y) {
 void mouseMove(int x, int y) {
     if (rightMouse == true) mouseDelta(x,y);
     if (middleMouse == true) zoomDelta(x,y);
-    if (freeCam) {
+    if (hullCam) {
         cam.cameraPan(cam.getLookAt(), curAz, curDist, curEle);
     }
     else {
