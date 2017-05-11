@@ -1,13 +1,12 @@
-# Blender MTL File: 'front.blend'
+# Blender MTL File: 'wheel.blend'
 # Material Count: 1
 
-newmtl frontmat
+newmtl wheelmat
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
-Kd 0.639282 0.327705 0.008310
-Ks 0.399551 0.205137 0.012204
+Kd 0.639282 0.325792 0.008264
+Ks 0.399551 0.203620 0.005165
 Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd .

@@ -109,7 +109,7 @@
 
 1493744660 c:\users\x74575\documents\github\cs473-project-2\vec3d.h
 
-1494297488 source:c:\users\x74575\documents\github\cs473-project-2\importobject.cpp
+1494503858 source:c:\users\x74575\documents\github\cs473-project-2\importobject.cpp
 	"ImportObject.h"
 	<iostream>
 	<sstream>
@@ -118,7 +118,7 @@
 	<stdlib.h>
 	"GL/freeglut.h"
 
-1494297488 c:\users\x74575\documents\github\cs473-project-2\importobject.h
+1494367535 c:\users\x74575\documents\github\cs473-project-2\importobject.h
 	<string>
 	<vector>
 	<map>
@@ -130,7 +130,7 @@
 	"Vec3d.h"
 	"ImportObject.h"
 
-1494302697 source:c:\users\x74575\documents\github\cs473-project-2\main.cpp
+1494503510 source:c:\users\x74575\documents\github\cs473-project-2\main.cpp
 	<vector>
 	<iostream>
 	<cmath>

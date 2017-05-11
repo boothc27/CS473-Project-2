@@ -1,7 +1,7 @@
 # Blender MTL File: 'turret.blend'
 # Material Count: 1
 
-newmtl Material.002
+newmtl turretmat
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.039765 0.057817 0.639282

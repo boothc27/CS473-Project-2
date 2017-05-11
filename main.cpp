@@ -109,6 +109,9 @@ void drawHUD() {
     txt << "Arrow Keys: Move Turret";
     drawStringBitmap(0.1, 0.55, txt.str(), GLUT_BITMAP_8_BY_13);
     txt.str("");
+    txt << "Space: Fire";
+    drawStringBitmap(0.1, 0.45, txt.str(), GLUT_BITMAP_8_BY_13);
+    txt.str("");
 
     glViewport(windowSize[0]-200, windowSize[1] - 100, 200, 100);
     if (hullCam) txt << "Camera Mode: Body";

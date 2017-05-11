@@ -1,7 +1,7 @@
 # Blender MTL File: 'shell.blend'
 # Material Count: 1
 
-newmtl Material
+newmtl shellmat
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.639282 0.007307 0.411934

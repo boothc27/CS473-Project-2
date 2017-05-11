@@ -1,7 +1,7 @@
 # Blender MTL File: 'car.blend'
 # Material Count: 1
 
-newmtl car
+newmtl carmat
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.341410 0.270982 0.257405
